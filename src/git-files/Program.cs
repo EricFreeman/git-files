@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using git_files;
 using LibGit2Sharp;
 
 namespace git_fukd
@@ -10,20 +11,22 @@ namespace git_fukd
     {
         private static void Main(string[] args)
         {
-            var changes = new Dictionary<string, int>();
             var files = new List<string>();
             var spinner = new ConsoleSpiner();
             Console.Write("Working....");
 
             var directory = Directory.GetCurrentDirectory();
-            directory = "C:\\home\\projects\\git-fukd";
+            directory = "C:\\home\\projects\\fuck";
             using (var repo = new Repository(directory))
             {
+                var argumentParser = new ArgumentParser();
+                var arguments = argumentParser.ParseArguments(args, repo.Tags);
+
                 var commits = repo.Commits;
                 Commit lastCommit = null;
 
-                var start = repo.Tags.First().Target.Sha;
-                var end = repo.Tags.Last().Target.Sha;
+                var start = arguments.StartTag;
+                var end = arguments.EndTag;
 
                 var isLooking = false;
                 var isLast = false;
