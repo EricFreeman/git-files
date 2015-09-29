@@ -25,9 +25,6 @@ namespace git_fukd
                 var commits = repo.Commits;
                 Commit lastCommit = null;
 
-                var start = arguments.StartTag;
-                var end = arguments.EndTag;
-
                 var isLooking = false;
                 var isLast = false;
 
@@ -46,7 +43,7 @@ namespace git_fukd
                     var parentCommitTree = lastCommit.Tree;
                     lastCommit = commit;
 
-                    if (commit.Sha == start || commit.Sha == end)
+                    if (commit.Sha == arguments.StartTag || commit.Sha == arguments.EndTag)
                     {
                         isLooking = !isLooking;
                         isLast = !isLooking;
