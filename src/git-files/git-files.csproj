@@ -45,7 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Parsers\ArgumentParser.cs" />
     <Compile Include="ConsoleSpinner.cs" />
+    <Compile Include="Domain\Arguments.cs" />
+    <Compile Include="Parsers\CommitParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

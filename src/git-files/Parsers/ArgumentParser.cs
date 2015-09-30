@@ -2,7 +2,7 @@
 using git_files.Domain;
 using LibGit2Sharp;
 
-namespace git_files
+namespace git_files.Parsers
 {
     public class ArgumentParser
     {

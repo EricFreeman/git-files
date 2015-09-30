@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using git_files;
+using git_files.Parsers;
 using LibGit2Sharp;
 
 namespace git_fukd
@@ -11,8 +10,6 @@ namespace git_fukd
     {
         private static void Main(string[] args)
         {
-            var files = new List<string>();
-            var spinner = new ConsoleSpiner();
             Console.Write("Working....");
 
             var directory = Directory.GetCurrentDirectory();
@@ -22,54 +19,8 @@ namespace git_fukd
                 var argumentParser = new ArgumentParser();
                 var arguments = argumentParser.ParseArguments(args, repo.Tags);
 
-                var commits = repo.Commits;
-                Commit lastCommit = null;
-
-                var isLooking = false;
-                var isLast = false;
-
-                foreach (var commit in commits)
-                {
-                    spinner.Turn();
-
-                    var tree = commit.Tree;
-
-                    if (lastCommit == null)
-                    {
-                        lastCommit = commit;
-                        continue;
-                    }
-
-                    var parentCommitTree = lastCommit.Tree;
-                    lastCommit = commit;
-
-                    if (commit.Sha == arguments.StartTag || commit.Sha == arguments.EndTag)
-                    {
-                        isLooking = !isLooking;
-                        isLast = !isLooking;
-                    }
-
-                    if (isLooking)
-                    {
-                        var c = repo.Diff
-                            .Compare<TreeChanges>(parentCommitTree, tree)
-                            .ToList();
-
-                        c.ForEach(commitChanges =>
-                        {
-                            var file = commitChanges.Path;
-                            if (file.EndsWith(".sql") && !files.Contains(file))
-                            {
-                                files.Add(file);
-                            }
-                        });
-                    }
-
-                    if (isLast)
-                    {
-                        break;
-                    }
-                }
+                var commitParse = new CommitParser();
+                var files = commitParse.FindFilesOfTypeChangedBetweenTags(arguments, repo);
 
                 Console.WriteLine();
 
