@@ -31,8 +31,8 @@ namespace git_files.Parsers
 
             return new Arguments
             {
-                StartTag = start != null ? start.Target.Sha : tags.First().Target.Sha,
-                EndTag = end != null ? end.Target.Sha : tags.Skip(1).First().Target.Sha,
+                StartTag = start != null ? start.Target.Sha : tags.Last().Target.Sha,
+                EndTag = end != null ? end.Target.Sha : tags.Reverse().Skip(1).First().Target.Sha,
                 FileExtension = fileExtension,
                 ExportFileName = fileName
             };

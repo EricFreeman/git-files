@@ -13,7 +13,7 @@ namespace git_fukd
             Console.Write("Working....");
 
             var directory = Directory.GetCurrentDirectory();
-            directory = "C:\\home\\projects\\fuck";
+            directory = "C:\\home\\projects\\test-repo-for-git-files";
             using (var repo = new Repository(directory))
             {
                 var argumentParser = new ArgumentParser();
